@@ -2,7 +2,7 @@
     "name": "StockyBackend",
     "description": "server to stocky app",
     "image": "heroku/python",
-    "repository": "https://github.com/heroku/python-getting-started",
+    "repository": "https://github.com/kUNWAR-DIVYANSHU/Stocky-Backend",
     "keywords": ["python", "flask" ],
     "env": {
       "SECRET_KEY": {
