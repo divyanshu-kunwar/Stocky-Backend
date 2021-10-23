@@ -1103,4 +1103,3 @@ def zlema(data,period: int = 26, adjust: bool = True,
             name=f'{period}_ZLEMA'
         )
     return zlema
-
