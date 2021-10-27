@@ -2,54 +2,60 @@ from flask import Flask, json , jsonify , request
 import graphlib.financialGraph as fg
 import pandas as pd
 import indicatorlib.indicators as ind
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
-@app.route('/graph/<string:graphtype>', methods=['POST'])
-def sendGraphData(graphtype):
+@app.route('/companyList')
+def sendCompanyList():
+    companyDF = pd.read_csv("datadownload/equity40.csv")
+    return (companyDF.to_json(orient='values'))
 
-    receievedData = request.json
-    df = pd.read_json(receievedData,orient = 'split')
-    graphObj = fg.Data(df , graphtype)
-
-    return jsonify(graphObj.send_data().to_json())
-
-@app.route('/indicator/<string:indicator_name>',
- methods=['POST'])
-def sendIndData(indicator_name):
+@app.route('/initializeData/<string:companyName>', methods=['post'])
+def updateTempDatabase(companyName):
     try:
-        period = request.args.get('period')
-        columns = request.args.get('columns')
-        print(indicator_name , period , columns)
+        username = request.args.get('username')
+        print(username , " requested for ", companyName)
     except:
         print("error")
-    receievedData = request.json
-    df = pd.read_json(receievedData,orient = 'split')
-    data_r = calcIndData(df,indicator_name,period,columns)
-    return jsonify(data_r.to_json())
-def calcIndData(df,indicator_name='atr',period=14,columns="close"):
-    if(indicator_name == "atr"):
-        return ind.atr(df,period=int(period))
-    elif(indicator_name == "apz"):
-        return ind.apz(df,period=period)
-    elif(indicator_name == "bbands"):
-        return ind.bbands(df,period=period,column=columns)
-    elif(indicator_name == "dema"):
-        return ind.dema(df,period=period,column=columns)
-    elif(indicator_name == "dmi"):
-        return ind.dmi(df,column=columns)
-    elif(indicator_name == "ema"):
-        return ind.ema(df,period=period,column=columns)
-    elif(indicator_name == "er"):
-        ind.er(df,period=period,column=columns)
-    elif(indicator_name == "evstc"):
-        return ind.evstc(df)
-    elif(indicator_name == "evwma"):
-        return ind.evwma(df,period=period)
+    return "Success"
 
-@app.route('/news')
-def sendNews():
-    return "aaj ki taaza khabar"
+@app.route('/graph/<string:graphType>' , methods=['post'])
+def sendGraphData(graphType):
+    try:
+        timePeriod = request.args.get('period')
+        print(graphType , " with timeperiod ", timePeriod)
+    except:
+        print("error")
+    return "Success"
+
+@app.route("/indicator/<string:indicatorName>", methods=['post'])
+def sendIndicatorData(indicatorName):
+    try:
+        timePeriod = request.args.get('timePeriod')
+        period = request.args.get('period')
+        columns = request.args.get('columns')
+        print(indicatorName , period , columns)
+    except:
+        print("error")
+    return "Success"
+
+@app.route("/authentication/userinfo", methods=['post'])
+def sendInfo():
+    return "Success"
+
+@app.route("/authentication/verify", methods=['post'])
+def activateVerification():
+    return "Success"
+
+@app.route("/authentication/update", methods=['post'])
+def updateInfo():
+    return "Success"
+
+@app.route("/news", methods=['post'])
+def fetchNews():
+    return "Success"
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
