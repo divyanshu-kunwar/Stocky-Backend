@@ -1,0 +1,5 @@
+Month,Open Price,High Price,Low Price,Close Price,No.of Shares,No. of Trades,Total Turnover (Rs.),Deliverable Quantity,% Deli. Qty to Traded Qty,Spread High-Low,Spread Close-Open
+January-2016,3.00,3.00,3.00,3.00,20,2,60.00,20,100.00,0.00,0.00
+November-2018,3.15,3.15,3.15,3.15,50,2,157.00,50,100.00,0.00,0.00
+January-2021,3.30,3.30,3.15,3.30,892,10,2867.00,509,57.06,0.15,0.00
+March-2021,3.46,3.46,3.46,3.46,20,1,69.00,20,100.00,0.00,0.00
